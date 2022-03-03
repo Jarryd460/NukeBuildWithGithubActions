@@ -13,3 +13,7 @@
 
 * Nuke.Common
 
+### Workflow Statuses
+
+[![CI](https://github.com/Jarryd460/NukeBuildWithGithubActions/actions/workflows/ci.yml/badge.svg)](https://github.com/Jarryd460/NukeBuildWithGithubActions/actions/workflows/ci.yml)
+[![NukeBuildWithGithubActions](https://github.com/Jarryd460/NukeBuildWithGithubActions/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Jarryd460/NukeBuildWithGithubActions/actions/workflows/dotnet.yml)
