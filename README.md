@@ -8,5 +8,4 @@
 ### Dependencies
 
 * Nuke.Common
-* GitVersion.CommandLine
 

@@ -1,34 +1,49 @@
+# Defines the name of the workflow that will be display on Github under Actions
 name: CI
 
+# Defines triggers that would cause this workflow to execute
 on:
+# adds a trigger that fires when a push is made to master branch
   push:
     branches: [ master ]
+# adds a trigger that fires when a pull request is made to master branch
   pull_request:
     branches: [ master ]
 
+# Defines the jobs that will execute when a trigger fires
 jobs:
+# Defines the name of the job
   build:
+# Defines where this job will run. In this case we run it on multiple environments, specified under strategy -> matrix -> os
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
+# Defines the steps that will be executed in this job
     steps:
+# Check's out the code
     - uses: actions/checkout@v2
-    
+
+# Gives a name to the step    
     - name: Setup .NET Core SDK - latest
+# Installs dotnet 6.0.x on the virtual environment
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.*
         
     - name: set shell script permissions
+# Specifies that this step should only execute when not running on windows
       if: ${{ matrix.os != 'windows-latest'}}
+# Gives the shell rights to run ./build.sh. If we do not give it permissions, the script will fail with access denied. This seems only applicable for non windows operating systems
       run: chmod +x ./build.sh
 
+# Executes the build.sh script inside default shell only when not a windows operating system
     - name: build and test (Unix)
       if: ${{ matrix.os != 'windows-latest'}}
       run: ./build.sh --target compile test --verbosity verbose
 
+# Executes the build.ps1 script inside default shell only when a windows operating system
     - name: build and test (Windows)
       if: ${{ matrix.os == 'windows-latest'}}
       run: .\build.ps1 --target compile test --verbosity verbose

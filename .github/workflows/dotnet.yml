@@ -1,22 +1,33 @@
+# Defines the name of the workflow that will be display on Github under Actions
 name: NukeBuildWithGithubActions
 
+# Defines triggers that would cause this workflow to execute
 on:
+# adds a trigger that fires when a push is made to master branch
   push:
     branches: [ master ]
+# adds a trigger that fires when a pull request is made to master branch
   pull_request:
     branches: [ master ]
 
+# Defines the jobs that will execute when a trigger fires
 jobs:
+# Defines the name of the job
   build:
-
+# Defines where this job will run
     runs-on: windows-latest
-
+# Defines the steps that will be executed in this job
     steps:
+# Check's out the code
     - uses: actions/checkout@v2
+# Gives a name to the step
     - name: Setup .NET
+# Installs dotnet 6.0.x on the virtual environment
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
     - name: Build And Test
+# Specifies what shell to open. In this case powershell core
       shell: pwsh
+# Executes the specified command inside powershell core. In this case we execute the Nuke build script which executes the compile and test targets
       run: ./build.ps1 --target compile test --verbosity verbose
