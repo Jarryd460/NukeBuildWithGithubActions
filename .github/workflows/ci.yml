@@ -3,6 +3,8 @@ name: CI
 
 # Defines triggers that would cause this workflow to execute
 on:
+# Adds a button on Github under Actions to allow the build to be triggered manually
+  workflow_dispatch:
 # adds a trigger that fires when a push is made to master branch
   push:
     branches: [ master ]
