@@ -43,5 +43,5 @@ jobs:
       run: ./build.cmd --target compile test --verbosity verbose
  # Enable tmate debugging of manually-triggered workflows if the input option was true and a failure has occured
     - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3s
+      uses: mxschmitt/action-tmate@v3
       if: ${{ failure() && github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
