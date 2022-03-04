@@ -6,7 +6,7 @@ on:
 # Adds a button on Github under Actions to allow the build to be triggered manually
   workflow_dispatch:
     inputs:
-# A parameter passed to Github Actions that will be used to determine if tmate should be setup for debugging
+# A parameter passed to Github Actions that will be used to determine if tmate should be setup for debugging. The below details will be made visible when wanting to run workflow manually
       debug_enabled:
         description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
         required: false
@@ -26,10 +26,6 @@ jobs:
     runs-on: windows-latest
 # Defines the steps that will be executed in this job
     steps:
- # Enable tmate debugging of manually-triggered workflows if the input option was provided
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
 # Check's out the code
     - uses: actions/checkout@v2
 # Gives a name to the step and copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
@@ -45,3 +41,7 @@ jobs:
     - name: Build And Test
 # Executes the specified command inside powershell core. In this case we execute the Nuke build script which installs dotnet 6.0.x on the virtual environment and executes the compile and test targets
       run: ./build.cmd --target compile test --verbosity verbose
+ # Enable tmate debugging of manually-triggered workflows if the input option was true and a failure has occured
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3s
+      if: ${{ failure() && github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
