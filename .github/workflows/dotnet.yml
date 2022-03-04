@@ -33,7 +33,5 @@ jobs:
 # Creates a unique key for this cache
          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
     - name: Build And Test
-# Specifies what shell to open. In this case powershell core
-      shell: pwsh
 # Executes the specified command inside powershell core. In this case we execute the Nuke build script which installs dotnet 6.0.x on the virtual environment and executes the compile and test targets
-      run: ./build.ps1 --target compile test --verbosity verbose
+      run: ./build.cmd --target compile test --verbosity verbose
