@@ -28,6 +28,14 @@ jobs:
     steps:
 # Check's out the code
     - uses: actions/checkout@v3
+# Version 1 fetched the entire history which is what GitVersion requires when determining the project version however version 2 has since been optomized and fetches only the commit that's needed.
+# This causes GitVersion to fail to initialized (https://github.com/actions/checkout/issues/113)
+# Specify that the entire history should be fetched for all tags and branches. A feature will be introduced soon to allow fetching additional refs (https://github.com/actions/checkout/pull/155)
+      with:
+         fetch-depth: 0
+# Fetches tags from repository
+      #run: git fetch --tags
+
 # Gives a name to the step and copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
     - name: Cache .nuke/temp, ~/.nuget/packages
       uses: actions/cache@v2
