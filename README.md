@@ -29,6 +29,13 @@
 * Depending on your choice, it will determine how  many Github Actions will be supported. I suggest that the largest image be chosen. Once selected, a .actrc will be created under your username (c:\Users\jondoe\.actrc). This is where configuration for act is stored.
     * With trigger: act push -W ./github/workflows/{workflow}.yml
     * With Job: act pull_request -j {job name} -W ./github/workflows/{workflow}.yml
+* To enable verbose logging in Github Actions, add the following to settings -> secrets -> actions:
+    * ACTIONS_RUNNER_DEBUG=true
+    * ACTIONS_STEP_DEBUG=true
+* TMate is a tool for debugging Github Actions on Github.
+    * Add the action to your workflow to enable debugging. To make debugging with tmate configurable, you should add a input paramter (example: debug_enabled) and provide it's value
+* Workflows can be disabled by going to the Actions tab and selecting the workflow. There should be a "..." button which has the option to disable workflow.
+
 
 ### Workflow Statuses
 
@@ -44,3 +51,4 @@
 * GitVersion: https://github.com/GitTools/GitVersion
 * Github Action cache: https://github.com/actions/cache
 * Act: https://github.com/nektos/act
+* Tmate: https://github.com/marketplace/actions/debugging-with-tmate
