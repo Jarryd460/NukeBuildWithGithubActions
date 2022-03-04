@@ -21,6 +21,15 @@
 * Once installed run dotnet-gitversion in a Git directory to ensure the install was successful. It must be run in a git directory to generate the version for the repository.
 * Run "dotnet-gitversion init" and go through the wizard to setup GitVersion which will generate a GitVersion.yml file once you have finished wizard and saved changes.
 
+### Github Actions
+
+* To test Github Actions locally, you will need Docker installed locally.
+* Once installed, install chocolate and run "choco act-cli" to install act.
+* Run act -W ./github/workflows/{workflow}.yml. It only supports jobs that run on linux. When running for the first time, act will ask you about the image you would like to use (micro, medium and large). 
+* Depending on your choice, it will determine how  many Github Actions will be supported. I suggest that the largest image be chosen. Once selected, a .actrc will be created under your username (c:\Users\jondoe\.actrc). This is where configuration for act is stored.
+    * With trigger: act push -W ./github/workflows/{workflow}.yml
+    * With Job: act pull_request -j {job name} -W ./github/workflows/{workflow}.yml
+
 ### Workflow Statuses
 
 [![CI](https://github.com/Jarryd460/NukeBuildWithGithubActions/actions/workflows/ci.yml/badge.svg)](https://github.com/Jarryd460/NukeBuildWithGithubActions/actions/workflows/ci.yml)
@@ -34,3 +43,4 @@
 * Nuke with Github: https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/amp/
 * GitVersion: https://github.com/GitTools/GitVersion
 * Github Action cache: https://github.com/actions/cache
+* Act: https://github.com/nektos/act

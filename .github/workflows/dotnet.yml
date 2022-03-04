@@ -22,13 +22,7 @@ jobs:
     steps:
 # Check's out the code
     - uses: actions/checkout@v2
-# Gives a name to the step
-    - name: Setup .NET
-# Installs dotnet 6.0.x on the virtual environment
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-# Copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
+# Gives a name to the step and copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
     - name: Cache .nuke/temp, ~/.nuget/packages
       uses: actions/cache@v2
       with:
@@ -41,5 +35,5 @@ jobs:
     - name: Build And Test
 # Specifies what shell to open. In this case powershell core
       shell: pwsh
-# Executes the specified command inside powershell core. In this case we execute the Nuke build script which executes the compile and test targets
+# Executes the specified command inside powershell core. In this case we execute the Nuke build script which installs dotnet 6.0.x on the virtual environment and executes the compile and test targets
       run: ./build.ps1 --target compile test --verbosity verbose
