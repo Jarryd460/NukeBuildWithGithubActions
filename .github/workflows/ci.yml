@@ -40,6 +40,17 @@ jobs:
 # Gives the shell rights to run ./build.sh. If we do not give it permissions, the script will fail with access denied. This seems only applicable for non windows operating systems
       run: chmod +x ./build.sh
 
+# Copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
+    - name: Cache .nuke/temp, ~/.nuget/packages
+      uses: actions/cache@v2
+      with:
+# Specifies the paths to be cached
+         path: |
+            .nuke/temp
+            ~/.nuget/packages
+# Creates a unique key for this cache
+         key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
 # Executes the build.sh script inside default shell only when not a windows operating system
     - name: build and test (Unix)
       if: ${{ matrix.os != 'windows-latest'}}

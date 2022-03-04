@@ -17,6 +17,8 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     GitHubActionsImage.WindowsLatest,
     InvokedTargets = new[] { "Compile", "Test" },
     OnPushBranches = new[] { "master" },
+    // When we only want the trigger to fire when certain paths/files have changed
+    //OnPushIncludePaths = new[] { "src/**" },
     OnPullRequestBranches = new[] { "master" },
     AutoGenerate = true)]
 [CheckBuildProjectConfigurations]
@@ -41,6 +43,12 @@ class Build : NukeBuild
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
+
+    protected override void OnBuildInitialized()
+    {
+        Serilog.Log.Information("Build process started");
+        base.OnBuildInitialized();
+    }
 
     Target Clean => _ => _
         .Before(Restore)

@@ -28,6 +28,16 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+# Copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
+    - name: Cache .nuke/temp, ~/.nuget/packages
+      uses: actions/cache@v2
+      with:
+# Specifies the paths to be cached
+         path: |
+            .nuke/temp
+            ~/.nuget/packages
+# Creates a unique key for this cache
+         key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
     - name: Build And Test
 # Specifies what shell to open. In this case powershell core
       shell: pwsh
