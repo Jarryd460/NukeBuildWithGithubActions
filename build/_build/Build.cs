@@ -15,7 +15,6 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [GitHubActions(
     "NukeGeneratedWorkflow",
     GitHubActionsImage.WindowsLatest,
-    GitHubActionsImage.UbuntuLatest,
     InvokedTargets = new[] { "Compile", "Test" },
     OnPushBranches = new[] { "master" },
     OnPullRequestBranches = new[] { "master" },
