@@ -34,6 +34,9 @@
     * ACTIONS_STEP_DEBUG=true
 * TMate is a tool for debugging Github Actions on Github.
     * Add the action to your workflow to enable debugging. To make debugging with tmate configurable, you should add a input paramter (example: debug_enabled) and provide it's value
+    * In the build logs a url to access the virtual environment should be output to the terminal every 5 seconds.
+        * You could also use the ssh key that is provided to connect to the virtual environment.
+    * To continue execution of build run "touch continue" in terminal.
 * Workflows can be disabled by going to the Actions tab and selecting the workflow. There should be a "..." button which has the option to disable workflow.
 
 
