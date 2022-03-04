@@ -27,7 +27,7 @@ jobs:
 # Defines the steps that will be executed in this job
     steps:
 # Check's out the code
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
 # Gives a name to the step and copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
     - name: Cache .nuke/temp, ~/.nuget/packages
       uses: actions/cache@v2
