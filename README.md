@@ -55,3 +55,4 @@
 * Github Action cache: https://github.com/actions/cache
 * Act: https://github.com/nektos/act
 * Tmate: https://github.com/marketplace/actions/debugging-with-tmate
+* Git Line Endings: https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/
