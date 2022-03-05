@@ -36,9 +36,11 @@ jobs:
 # Fetches tags from repository
       #run: git fetch --tags
 
-# Gives a name to the step and copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
+# Copies cache of .nuke/temp as well as nuget packages between jobs. This action is not supported by Act so we skip it if run from Act
     - name: Cache .nuke/temp, ~/.nuget/packages
       uses: actions/cache@v2
+# The env.ACT environment variable is automatically set by Act.
+      if: ${{ env.ACT }}
       with:
 # Specifies the paths to be cached
          path: |

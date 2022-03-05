@@ -12,6 +12,10 @@ on:
   pull_request:
     branches: [ master ]
 
+# Add a global environment variable called first_name
+env:
+    first_name: Jarryd
+
 # Defines the jobs that will execute when a trigger fires
 jobs:
 # Defines the name of the job
@@ -35,8 +39,9 @@ jobs:
       #run: git fetch --tags
 # Gives a name to the step    
     - name: Setup .NET Core SDK - latest
-# Installs dotnet 6.0.x on the virtual environment
+# Installs dotnet 6.0.x on the virtual environment. We only need to do this explicitly when running from Act. The dotnet that the build script installs is not suffient as Nuke looks for MSBuild
       uses: actions/setup-dotnet@v1
+      if: ${{ env.ACT }}
       with:
         dotnet-version: 6.0.*
         
@@ -46,9 +51,38 @@ jobs:
 # Gives the shell rights to run ./build.sh. If we do not give it permissions, the script will fail with access denied. This seems only applicable for non windows operating systems
       run: chmod +x ./build.sh
 
-# Copies cache of .nuke/temp as well as nuget packages. .nuke/temp is not needed but nuget packages are because build requires gitversion.Tool
+    - name: Output my environment variables
+# Specifies that this step should only execute when not running on windows
+      if: ${{ matrix.os != 'windows-latest'}}
+# Add a step scoped environment variable called age
+      env:
+        age: "29"
+# Outpus environment variables (case sensitive). $first_name comes from env set globally above, $middle_name and env.LAST_NAME comes from my.env file and Age comes from line above
+# which is set for this particular step
+      run: echo $first_name $middle_name ${{ env.LAST_NAME }}, Age ${{ env.age }}
+
+    - name: Output my secrets
+# Specifies that this step should only execute when not running on windows
+      if: ${{ matrix.os != 'windows-latest'}}
+# Add a step scoped evironment variable called EXPOSED_ADDRESS and give it the value of SECRET_ADDRESS
+      env:
+        EXPOSED_ADDRESS: ${{ secrets.SECRET_ADDRESS }}
+# Outpus secrets (case sensitive). $SECRET_ADDRESS comes from my.secrets file and $EXPOSED_ADDRESS comes from line above
+# which is set for this particular step
+      run: echo ${{ secrets.SECRET_ADDRESS }}, "$EXPOSED_ADDRESS"
+
+    - name: Event
+# Specifies that this step should only execute when not running on windows
+      if: ${{ matrix.os != 'windows-latest' }}
+# Outpus the event name which it get's from the event.json file. The event.json file is used to specify the body content that Github would usually make available when an event would occur. 
+# An example is when a comment is made, the body/content would be the comment itself as well as other metadata about the comment
+      run: echo "Event name ${{ github.event_name }}, Event action ${{ github.event.action }}"
+
+# Copies cache of .nuke/temp as well as nuget packages between jobs. This action is not supported by Act so we skip it if run from Act
     - name: Cache .nuke/temp, ~/.nuget/packages
       uses: actions/cache@v2
+# The env.ACT environment variable is automatically set by Act.
+      if: ${{ !env.ACT }}
       with:
 # Specifies the paths to be cached
          path: |
